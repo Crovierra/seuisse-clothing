@@ -20,9 +20,9 @@ const Navbar = () => {
 
   return (
     <nav className='flex flex-row justify-between items-center w-full px-[10%] h-[100px] shadow-md'>
-        <h1 className="text-4xl font-bold"><a href="/">SEUISSE</a></h1>
+        <h1 className="text-4xl font-bold"><a href="/">SUISSE</a></h1>
         <ul className='flex flex-row justify-evenly w-[20%] max-sm:hidden'>
-            <li><a href="/" className="hover:opacity-75">Shop</a></li>
+            <li><a href="/explore" className="hover:opacity-75">Shop</a></li>
             <li><a href="/" className="hover:opacity-75">On Sale</a></li>
             <li><a href="/" className="hover:opacity-75">New Arrivals</a></li>
             <li><a href="/" className="hover:opacity-75">Brands</a></li>

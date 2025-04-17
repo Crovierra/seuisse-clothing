@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { CustomInput } from "./ui/CustomInput"
-import useLoading from "@/hooks/useLoading"
 import useLogin from "@/hooks/useLogin"
 import useRegister from "@/hooks/useRegister"
 import { useEffect } from "react"
@@ -11,9 +10,8 @@ import { useRouter } from "next/navigation"
 
 
 const AuthForm = ({title}) => {
-  const { submitLogin, emailRef, passwordRef, loginErrorMessage } = useLogin();
-  const { submitRegister, regisErrorMessage, handleRegister } = useRegister();
-  const {loading} = useLoading()
+  const { submitLogin, emailRef, passwordRef, loginErrorMessage, loginLoading } = useLogin();
+  const { submitRegister, regisErrorMessage, handleRegister, regisLoading } = useRegister();
   const {currentUser} = useUser();
   const router = useRouter()
 
@@ -78,8 +76,8 @@ const AuthForm = ({title}) => {
         onChange={handleRegister}
         />
         <p className="mt-2">Already have an account ? <span className="text-blue-500"><Link href="/login">Login</Link></span> here</p>
-        {regisErrorMessage ? regisErrorMessage : null}
-        <button className="btn bg-black px-4 py-1 rounded-full text-white hover:opacity-80 shadow-md cursor-pointer mt-4" disabled={loading}>Join Now</button>
+        <p className="text-red-500">{regisErrorMessage ? regisErrorMessage : null}</p>
+        <button className="btn bg-black px-4 py-1 rounded-full text-white hover:opacity-80 shadow-md cursor-pointer mt-4" disabled={regisLoading}>{regisLoading ? "Loading . . " : "Join Now"}</button>
         </form>
       ) : (
         <form className="flex flex-col justify-center items-center gap-2 h-screen pb-[8%]" action="POST" onSubmit={submitLogin}>
@@ -105,7 +103,7 @@ const AuthForm = ({title}) => {
         />
         <p className="mt-2">Don't have an account ? <span className="text-blue-500"><Link href="/register">Register</Link></span> here</p>
         <p className="text-red-500">{loginErrorMessage ? loginErrorMessage : null}</p>
-        <button className="btn bg-black px-4 py-1 rounded-full text-white hover:opacity-80 shadow-md cursor-pointer mt-4" disabled={loading}>Get started</button>
+        <button className="btn bg-black px-4 py-1 rounded-full text-white hover:opacity-80 shadow-md cursor-pointer mt-4" disabled={loginLoading}>{loginLoading ? "Loading . . " : "Get started"}</button>
         </form>
       )}
     </div>

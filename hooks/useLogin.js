@@ -1,18 +1,16 @@
-import useLoading  from "./useLoading";
 import {useUser} from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 export default function useLogin(){
     const [loginErrorMessage, setErrorMessage] = useState(null)
+    const [loginLoading, setLoginLoading] = useState(false)
     const { login } = useUser();
-    const {setLoading} = useLoading();
+    
     const router = useRouter();
 
     const emailRef = useRef();
     const passwordRef = useRef();
-
-    
 
     async function submitLogin(e){
         e.preventDefault();
@@ -21,7 +19,7 @@ export default function useLogin(){
             password: passwordRef.current?.value || ""
         }
         try {
-            setLoading(true)
+            setLoginLoading(true)
             const response = await fetch("/api/user/login",
                 {
                     method: "POST",
@@ -45,9 +43,9 @@ export default function useLogin(){
         } catch(error) {
             setErrorMessage(error.message)
         } finally {
-            setLoading(false)
+            setLoginLoading(false)
         }
     }
 
-    return {submitLogin, emailRef, passwordRef, loginErrorMessage}
+    return {submitLogin, emailRef, passwordRef, loginErrorMessage, loginLoading}
 }

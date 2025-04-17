@@ -1,12 +1,12 @@
 import { useState } from "react";
-import useLoading from "./useLoading";
 import { useRouter } from "next/navigation";
 
 
 export default function useRegister(){
     const [newUser, setNewUser]=useState({
         name:"",
-    })    
+    })
+    const [regisLoading, setRegisLoading] = useState(false)
     
     function handleRegister(e){
         const {name, value} = e.target
@@ -16,12 +16,11 @@ export default function useRegister(){
     }
 
     const [regisErrorMessage, setErrorMessage] = useState(null)
-    const {setLoading} = useLoading();
     const router = useRouter()
     async function submitRegister(e){
         e.preventDefault()
         try {
-            setLoading(true)
+            setRegisLoading(true)
             const response = await fetch("/api/user/register",{
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
@@ -41,9 +40,9 @@ export default function useRegister(){
         } catch (error) {
             setErrorMessage(error.message)
         } finally {
-            setLoading(false)
+            setRegisLoading(false)
         }
     }
 
-    return {submitRegister, regisErrorMessage, handleRegister}
+    return {submitRegister, regisErrorMessage, handleRegister, regisLoading}
 }   
