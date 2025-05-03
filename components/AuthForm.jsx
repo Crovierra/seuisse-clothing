@@ -7,6 +7,7 @@ import useRegister from "@/hooks/useRegister"
 import { useEffect } from "react"
 import { useUser } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 
 const AuthForm = ({title}) => {
@@ -19,8 +20,17 @@ const AuthForm = ({title}) => {
       if(currentUser){
         router.push("/")
       }
-  })
+  },[])
   
+  useEffect(()=>{
+    if(currentUser){
+      toast.success("Logged in successfully", {
+      description: 'Welcome back! You’re ready to go.',
+      duration: 2000
+    })
+  }
+  }, [currentUser])
+
   return (
     <div>
       {title === "register" ? (

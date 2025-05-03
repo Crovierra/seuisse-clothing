@@ -20,7 +20,19 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
         match: [/^\+?\d{10,15}$/, "Invalid phone number"]
+    },
+    role: {
+        type: String
+    },
+    checkout: {
+        type: [
+            {
+                id: Number,
+                quantity: Number
+            }
+        ], default: []
     }
+        
 })
 
 const User = mongoose.models.User || mongoose.model("User", userSchema)

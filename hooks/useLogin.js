@@ -36,8 +36,7 @@ export default function useLogin(){
             
             if(response.ok){
                 sessionStorage.setItem("token",data.accessToken)
-                login(data.name)
-                alert("Success")
+                login({name: data.name, role:data.role})
                 router.push("/")
             }
         } catch(error) {

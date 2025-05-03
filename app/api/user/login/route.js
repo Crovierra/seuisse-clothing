@@ -18,7 +18,7 @@ export async function POST(req){
         }
         
         const user = await User.findOne({email})
-        
+        const userId = user._id.toString();
         
         if(!user){
             return NextResponse.json({message: "User not found"}, {status: 404})
@@ -30,9 +30,9 @@ export async function POST(req){
             return NextResponse.json({message: "Wrong password"}, {status: 404})
         }
         
-        const accessToken = jwt.sign(user.toObject(), process.env.NEXT_PUBLIC_ACTIVE_TOKEN,{expiresIn: "1h"})
+        const accessToken = jwt.sign(user.toObject(), process.env.NEXT_PUBLIC_ACTIVE_TOKEN)
         
-        return NextResponse.json({message: "Login sucessfull", accessToken: accessToken, name:user.name}, {status: 200})
+        return NextResponse.json({message: "Login successful", accessToken: accessToken, name:user.name, role:user.role, userId: userId}, {status: 200})
 
     } catch (error) {
         return NextResponse.json({message: "Failed to login"}, {status: 500})

@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(req){
     try {
         await connectDatabase();
-        const { name, address, phone, email, password } = await req.json()
+        const { name, address, phone, email, password, role, checkout } = await req.json()
         if(!name || !address || !phone || !email || !password){
             return NextResponse.json({message: "All field must be filled"})
         }
@@ -14,19 +14,20 @@ export async function POST(req){
         //Check if the email already used
         const checkEmail = await User.findOne({email})
         if(checkEmail){
-            return NextResponse.json({message: "Email already registed"}, {status: 409}) //409 conflict, same email
+            return NextResponse.json({message: "Email already registered"}, {status: 409}) //409 conflict, same email
         }
 
         //Check phone number also
         const checkPhone = await User.findOne({phone})
         if(checkPhone){
-            return NextResponse.json({message: "This phone number already registed"}, {status: 409})
+            return NextResponse.json({message: "This phone number already registered"}, {status: 409})
         }
 
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
-  
-        const user = new User({name, address, phone, email, password: hashedPassword})
+        
+        
+        const user = new User({name, address, phone, email, password: hashedPassword, role, checkout})
         await user.save()
         
         return NextResponse.json({message: "Success Register Account"}, {status: 200})

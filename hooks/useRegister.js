@@ -4,7 +4,13 @@ import { useRouter } from "next/navigation";
 
 export default function useRegister(){
     const [newUser, setNewUser]=useState({
-        name:"",
+        name: "",
+        email: "",
+        password: "",
+        address: "",
+        phone: "",
+        role: "customer",
+        checkout: []
     })
     const [regisLoading, setRegisLoading] = useState(false)
     
